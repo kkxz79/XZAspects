@@ -14,4 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface XZMenuView(Aspects)//分类
+-(void)buttonOfMenuView:(XZMenuView*)menuView;
+
+@end
+
 NS_ASSUME_NONNULL_END

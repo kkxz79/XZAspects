@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
+#import "Aspects.h"
 
 @interface AppDelegate ()
 
@@ -17,9 +19,35 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    ViewController * vc = [[ViewController alloc] init];
+    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    self.window.rootViewController = nav;
+    
+    /**
+     *事件拦截
+     *拦截UIViewController的viewDidLoad方法
+     */
+    [UIViewController aspect_hookSelector:@selector(viewDidLoad) withOptions:AspectPositionAfter usingBlock:^(id<AspectInfo> aspectInfo){
+        NSLog(@"%@ 对象的viewDidLoad调用了",aspectInfo.instance);
+        /**
+         *  添加我们要执行的代码，由于withOptions是AspectPositionAfter。
+         *  所以每个控制器的viewDidLoad触发都会执行下面的方法
+         */
+        [self doSomethings];
+        
+    } error:nil];
+    
+    
+    
+    
     return YES;
 }
 
+-(void)doSomethings
+{
+    //做一些事件统计等
+    NSLog(@"-----------------");
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
